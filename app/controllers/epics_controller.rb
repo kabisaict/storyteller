@@ -5,43 +5,43 @@ class EpicsController < ApplicationController
   respond_to :html
 
   def index
-    @epics = Epic.scoped.decorate
-    respond_with @epics
+    @epics = @project.epics.decorate
+    respond_with @project, @epics
   end
 
   def show
-    @epic = Epic.find(params[:id]).decorate
-    respond_with @epic
+    @epic = @project.epics.find(params[:id]).decorate
+    respond_with @project, @epic
   end
 
   def edit
-    @epic = Epic.find(params[:id])
-    respond_with @epic
+    @epic = @project.epics.find(params[:id])
+    respond_with @project, @epic
   end
 
   def new
-    @epic = Epic.new
-    respond_with @epic
+    @epic = @project.epics.new
+    respond_with @project, @epic
   end
 
   def create
-    @epic = Epic.new(params[:epic])
+    @epic = @project.epics.new(params[:epic])
     @epic.author = current_user
     flash[:notice] = 'Epic created' if @epic.save
-    respond_with @epic
+    respond_with @project, @epic
   end
 
   def update
-    @epic = Epic.find(params[:id])
+    @epic = @project.epics.find(params[:id])
     if @epic.update_attributes(params[:epic])
       flash[:notice] = 'Epic updated'
     end
-    respond_with @epic
+    respond_with @project, @epic
   end
 
   def destroy
-    @epic = Epic.find(params[:id])
+    @epic = @project.epics.find(params[:id])
     flash[:notice] = 'Epic destroyed' if @epic.destroy
-    respond_with @epic
+    respond_with @project, @epic
   end
 end
